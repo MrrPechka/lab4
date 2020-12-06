@@ -9,6 +9,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.font.FontRenderContext;
 import java.util.EmptyStackException;
 import java.util.Stack;
+
 import javax.swing.JPanel;
 
 public class GraphicsDisplay {
@@ -215,4 +216,44 @@ public class GraphicsDisplay {
         canvas.setColor(oldColor);
         canvas.setStroke(oldStroke);
     }
+
+    protected void paintHint(Graphics2D canvas) {
+        Color oldColor = canvas.getColor();
+        canvas.setColor(Color.MAGENTA);
+        StringBuffer label = new StringBuffer();
+
+        label.append("X=");
+        label.append(formatter.format((SMP.xd)));
+        label.append(", Y=");
+        label.append(formatter.format((SMP.yd)));
+
+        FontRenderContext context = canvas.getFontRenderContext();
+        Rectangle2D bounds = captionFont.getStringBounds(label.toString(), context);
+
+        if (!transform) {
+            int dy = -10;
+            int dx = +7;
+
+            if (SMP.y < bounds.getHeight())
+                dy = +13;
+
+            if (getWidth() < bounds.getWidth() + SMP.x + 20)
+                dx = -(int) bounds.getWidth() - 15;
+
+            canvas.drawString(label.toString(), SMP.x + dx, SMP.y + dy);
+        } else {
+            int dy = 10;
+            int dx = -7;
+
+            if (SMP.x < 10)
+                dx = +13;
+
+            if (SMP.y < bounds.getWidth() + 20)
+                dy = -(int) bounds.getWidth() - 15;
+
+            canvas.drawString(label.toString(), getHeight() - SMP.y + dy, SMP.x + dx);
+        }
+        canvas.setColor(oldColor);
+    }
+
 }
