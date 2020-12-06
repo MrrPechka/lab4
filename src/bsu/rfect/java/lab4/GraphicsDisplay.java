@@ -189,4 +189,30 @@ public class GraphicsDisplay {
                 }
             }
         }
+        Graphics2D canvas = (Graphics2D) g;
+        Stroke oldStroke = canvas.getStroke();
+        Color oldColor = canvas.getColor();
+        Paint oldPaint = canvas.getPaint();
+        Font oldFont = canvas.getFont();
+
+        if (showGrid)
+            paintGrid(canvas);
+        if (showAxis)
+            paintAxis(canvas);
+        paintGraphics(canvas);
+        if (showMarkers)
+            paintMarkers(canvas);
+        if (SMP != null)
+            paintHint(canvas);
+        if (selMode) {
+            canvas.setColor(Color.BLACK);
+            canvas.setStroke(selStroke);
+            canvas.draw(rect);
+        }
+        canvas.drawString("maxY", (int) xyToPoint(0, xmax).x + 5, (int) xyToPoint(0, xmax).y + 5);
+        canvas.setFont(oldFont);
+        canvas.setPaint(oldPaint);
+        canvas.setColor(oldColor);
+        canvas.setStroke(oldStroke);
+    }
 }
