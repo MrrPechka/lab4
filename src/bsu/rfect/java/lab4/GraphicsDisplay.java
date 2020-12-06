@@ -663,4 +663,54 @@ public class GraphicsDisplay {
 
         return p;
     }
+
+    public class MouseMotionHandler implements MouseMotionListener, MouseListener {
+        private double comparePoint(Point p1, Point p2) {
+            return Math.sqrt(Math.pow(p1.x - p2.x, 2)
+                    + Math.pow(p1.y - p2.y, 2));
+        }
+
+        private GraphPoint find(int x, int y) {
+            GraphPoint smp = new GraphPoint();
+            GraphPoint smp2 = new GraphPoint();
+            double r, r2 = 1000;
+            for (int i = 0; i < graphicsData.length; i++) {
+                Point p = new Point();
+                p.x = x;
+                p.y = y;
+                Point p2 = new Point();
+                p2.x = graphicsDataI[i][0];
+                p2.y = graphicsDataI[i][1];
+                r = comparePoint(p, p2);
+                if (r < 7.0) {
+                    smp.x = graphicsDataI[i][0];
+                    smp.y = graphicsDataI[i][1];
+                    smp.xd = graphicsData[i][0];
+                    smp.yd = graphicsData[i][1];
+                    smp.n = i;
+                    if (r < r2) {
+                        r2 = r;
+                        smp2 = smp;
+                    }
+                    return smp2;
+                }
+            }
+            return null;
+        }
+
+        public void mouseMoved(MouseEvent ev) {
+            GraphPoint smp;
+            smp = find(ev.getX(), ev.getY());
+            if (smp != null) {
+                setCursor(Cursor.getPredefinedCursor(8));
+                SMP = smp;
+            } else {
+                setCursor(Cursor.getPredefinedCursor(0));
+                SMP = null;
+            }
+            repaint();
+        }
+
+
+    }
 }
