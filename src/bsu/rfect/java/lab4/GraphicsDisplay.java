@@ -701,6 +701,7 @@ public class GraphicsDisplay {
         public void mouseMoved(MouseEvent ev) {
             GraphPoint smp;
             smp = find(ev.getX(), ev.getY());
+
             if (smp != null) {
                 setCursor(Cursor.getPredefinedCursor(8));
                 SMP = smp;
@@ -709,6 +710,36 @@ public class GraphicsDisplay {
                 SMP = null;
             }
             repaint();
+        }
+
+        public void mouseDragged(MouseEvent e) {
+            if (selMode) {
+                if (!transform)
+                    rect.setFrame(mausePX, mausePY, e.getX() - rect.getX(),
+                            e.getY() - rect.getY());
+                else {
+                    rect.setFrame(-mausePY + getHeight(), mausePX, -e.getY()
+                            + mausePY, e.getX() - mausePX);
+                }
+                repaint();
+            }
+
+            if (dragMode) {
+                if (!transform) {
+                    if (pointToXY(e.getX(), e.getY()).y < maxY && pointToXY(e.getX(), e.getY()).y > minY) {
+                        graphicsData[SMP.n][1] = pointToXY(e.getX(), e.getY()).y;
+                        SMP.yd = pointToXY(e.getX(), e.getY()).y;
+                        SMP.y = e.getY();
+                    }
+                } else {
+                    if (pointToXY(e.getX(), e.getY()).y < maxY && pointToXY(e.getX(), e.getY()).y > minY) {
+                        graphicsData[SMP.n][1] = pointToXY(e.getX(), e.getY()).y;
+                        SMP.yd = pointToXY(e.getX(), e.getY()).y;
+                        SMP.x = e.getX();
+                    }
+                }
+                repaint();
+            }
         }
 
 
