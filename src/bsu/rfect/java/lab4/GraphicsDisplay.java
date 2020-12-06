@@ -742,6 +742,45 @@ public class GraphicsDisplay {
             }
         }
 
+        public void mouseClicked(MouseEvent e) {
+            if (e.getButton() != 3)
+                return;
+
+            try {
+                zone = stack.pop();
+            } catch (EmptyStackException err) { }
+
+            if (stack.empty())
+                zoom = false;
+            repaint();
+        }
+
+        public void mouseEntered(MouseEvent arg0) {
+        }
+
+        public void mouseExited(MouseEvent arg0) {
+        }
+
+        public void mousePressed(MouseEvent e) {
+            if (e.getButton() != 1)
+                return;
+
+            if (SMP != null) {
+                selMode = false;
+                dragMode = true;
+            } else {
+                dragMode = false;
+                selMode = true;
+                mausePX = e.getX();
+                mausePY = e.getY();
+
+                if (!transform)
+                    rect.setFrame(e.getX(), e.getY(), 0, 0);
+                else
+                    rect.setFrame(e.getX(), e.getY(), 0, 0);
+            }
+        }
+
 
     }
 }
