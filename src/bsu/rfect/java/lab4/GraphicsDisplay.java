@@ -12,6 +12,8 @@ import java.util.Stack;
 
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
+
 public class GraphicsDisplay {
     class GraphPoint {
         double xd, yd;

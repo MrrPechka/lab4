@@ -22,6 +22,8 @@ import javax.swing.JOptionPane;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
+@SuppressWarnings("serial")
+
 public class MainFrame extends JFrame {
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
@@ -37,7 +39,81 @@ public class MainFrame extends JFrame {
     private GraphicsDisplay display = new GraphicsDisplay();
 
     public MainFrame(){
+        super("График");
+        File init_ = new File("init");
+        openGraphics(init_);
+        setSize(WIDTH, HEIGHT);
+        Dimension ss = new Dimension();
 
+        ss.height = 60;
+        ss.width = 40;
+
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        setLocation((kit.getScreenSize().width - WIDTH) / 2, (kit.getScreenSize().height - HEIGHT) / 2);
+        fileChooser = new JFileChooser();
+        JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+        JMenu fileMenu = new JMenu("Файл");
+        menuBar.add(fileMenu);
+
+        Action openGraphicsAction = new AbstractAction("Открыть файл с графиком") {
+            public void actionPerformed(ActionEvent event) {
+                fileChooser.setCurrentDirectory(new File("~"));
+                if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION)
+                    openGraphics(fileChooser.getSelectedFile());
+            }
+        };
+        fileMenu.add(openGraphicsAction);
+        JMenu graphicsMenu = new JMenu("График");
+        menuBar.add(graphicsMenu);
+
+        Action saveGraphicsAction = new AbstractAction("Сохранить файл с графиком") {
+            public void actionPerformed(ActionEvent event) {
+                fileChooser.setCurrentDirectory(new File("~"));
+                if (fileChooser.showSaveDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION)
+                    saveGraphics(fileChooser.getSelectedFile());
+            }
+        };
+        fileMenu.add(saveGraphicsAction);
+
+        Action showAxisAction = new AbstractAction("Показывать оси координат") {
+            public void actionPerformed(ActionEvent event) {
+                display.setShowAxis(showAxisMenuItem.isSelected());
+            }
+        };
+        showAxisMenuItem = new JCheckBoxMenuItem(showAxisAction);
+        graphicsMenu.add(showAxisMenuItem);
+        showAxisMenuItem.setSelected(true);
+
+        Action showMarkersAction = new AbstractAction("Показывать маркеры точек") {
+            public void actionPerformed(ActionEvent event) {
+                display.setShowMarkers(showMarkersMenuItem.isSelected());
+            }
+        };
+        showMarkersMenuItem = new JCheckBoxMenuItem(showMarkersAction);
+        graphicsMenu.add(showMarkersMenuItem);
+        showMarkersMenuItem.setSelected(true);
+
+        Action reformCoordinateAction = new AbstractAction("Преобразовать координаты") {
+            public void actionPerformed(ActionEvent event) {
+                display.setTransform(reformCoordinateItem.isSelected());
+            }
+        };
+        reformCoordinateItem = new JCheckBoxMenuItem(reformCoordinateAction);
+        graphicsMenu.add(reformCoordinateItem);
+        reformCoordinateItem.setSelected(false);
+
+        Action showGridAction = new AbstractAction("Показывать сетку") {
+            public void actionPerformed(ActionEvent event) {
+                display.setShowGrid(showGridItem.isSelected());
+            }
+        };
+        showGridItem = new JCheckBoxMenuItem(showGridAction);
+        graphicsMenu.add(showGridItem);
+        showGridItem.setSelected(true);
+
+        graphicsMenu.addMenuListener(new GraphicsMenuListener());
+        getContentPane().add(display, BorderLayout.CENTER);
     }
 
     public static void main(String[] args) {
