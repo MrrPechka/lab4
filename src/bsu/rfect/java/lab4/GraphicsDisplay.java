@@ -18,6 +18,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import javax.swing.JPanel;
 
 public class GraphicsDisplay extends JPanel {
@@ -60,7 +61,7 @@ public class GraphicsDisplay extends JPanel {
     private BasicStroke graphicsStroke;
 
     public GraphicsDisplay() {
-        setBackground(Color.PINK);
+        setBackground(Color.WHITE);
         graphicsStroke = new BasicStroke(4.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10.0f, new float[]{20, 5, 5, 5, 10, 5, 5, 5}, 0.0f);
         axisStroke = new BasicStroke(4.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, null, 0.0f);
         markerStroke = new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, null, 0.0f);
@@ -186,8 +187,6 @@ public class GraphicsDisplay extends JPanel {
             canvas.draw(new Line2D.Double(shiftPoint(center, -10, 5), shiftPoint(center, -10, -5)));
             canvas.draw(new Line2D.Double(shiftPoint(center, 5, 10), shiftPoint(center, -5, 10)));
             canvas.draw(new Line2D.Double(shiftPoint(center, 5, -10), shiftPoint(center, -5, -10)));
-
-
         }
     }
 
@@ -238,7 +237,6 @@ public class GraphicsDisplay extends JPanel {
             canvas.setColor(Color.BLUE);
             canvas.drawString(label, (float)(point.getX() + 5.0D), (float)(point.getY() - bounds.getHeight()));
         }
-
     }
 
     private void paintGrid(Graphics2D canvas) {
@@ -409,7 +407,6 @@ public class GraphicsDisplay extends JPanel {
                     GraphicsDisplay.this.zoomToRegion(GraphicsDisplay.this.originalPoint[0], GraphicsDisplay.this.originalPoint[1], finalPoint[0], finalPoint[1]);
                     GraphicsDisplay.this.repaint();
                 }
-
             }
         }
     }
@@ -458,7 +455,6 @@ public class GraphicsDisplay extends JPanel {
                 GraphicsDisplay.this.selectionRect.setFrame(GraphicsDisplay.this.selectionRect.getX(), GraphicsDisplay.this.selectionRect.getY(), width, height);
                 GraphicsDisplay.this.repaint();
             }
-
         }
     }
 }
