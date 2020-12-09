@@ -312,7 +312,6 @@ public class GraphicsDisplay extends JPanel {
         return dest;
     }
 
-
     protected int findSelectedPoint(int x, int y) {
         if (this.graphicsData == null) {
             return -1;
